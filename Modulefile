@@ -1,4 +1,4 @@
-name 'jlondon-couchbase'
+name 'jlondon-githubkey'
 version '0.0.1'
 source 'UNKNOWN'
 author 'Justice London'
