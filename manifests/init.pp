@@ -1,42 +1,37 @@
 # == Class: githubkey
 #
-# Full description of class githubkey here.
+# This module allows you to input an array of usernames from github and 
+# import them to a local system users authorized keys file
 #
-# === Parameters
+# == Parameters
 #
-# Document parameters here.
+# [*ensure*]
+#   Ensure can be present or absent which will either add or remove the user keys from the system
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*auth_user*]
+#   Define the username to store the ssh authorized key file entries to
 #
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*usernames*]
+#   An array of usernames to query github api for public keys
 #
 # === Examples
 #
-#  class { githubkey:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#  class { 'githubkey':
+#    ensure    => present,
+#    auth_user => 'root',
+#    usernames => ['github'],
 #  }
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Justice London <justice.london@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2014 Your name here, unless otherwise noted.
+# Copyright 2014 Justice London
 #
 class githubkey (
-  $ensure = present,
+  $ensure    = present,
   $auth_user = 'root',
   $usernames,
 ) {
@@ -47,6 +42,7 @@ class githubkey (
     user   => $auth_user,
   }
 
+  #Run through the ssh users returned from gitssh_import() and create them.
   create_resources(ssh_authorized_key, $ssh_keys, $defaults)
 
 }

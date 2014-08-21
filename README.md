@@ -6,30 +6,24 @@
 2. [Module Description - What the module does and why it is useful](#module-description)
 3. [Setup - The basics of getting started with githubkey](#setup)
     * [What githubkey affects](#what-githubkey-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with githubkey](#beginning-with-githubkey)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module allows you to input an array of github usernames and import their public key
+entries to the local system. This allows you to do fun things like have development systems
+which lock down to a specific set of developers without needing to store their public keys locally!
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+Setup of authorized_keys file based upon an array of github usernames.
 
 ## Setup
+
+    puppet module install justicel/githubkey
 
 ### What githubkey affects
 
@@ -38,42 +32,26 @@ management, etc.) this is the time to mention it.
 * This is a great place to stick any warnings.
 * Can be in list or paragraph form.
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
 ### Beginning with githubkey
 
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+* Requires the puppet-stdlib module.
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Based upon a list of usernames fed to the class we can import SSH public keys from github to a local authorized_keys file:
 
-## Reference
-
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+    class {'githubkey':
+      ensure    => present,
+      auth_user => 'root',
+      usernames => ['github'],
+    }
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Should support any standard Puppet compatible OS as it doesn't really do anything
+based upon system commands.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Feel free to add or remove features to this module. If you do something great
+please open a pull request so it can be added to the main module!
