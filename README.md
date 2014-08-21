@@ -23,7 +23,7 @@ Setup of authorized_keys file based upon an array of github usernames.
 
 ## Setup
 
-    puppet module install justicel/githubkey
+    puppet module install jlondon/githubkey
 
 ### What githubkey affects
 
