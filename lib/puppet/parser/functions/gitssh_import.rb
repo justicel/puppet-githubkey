@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'json'
 
 module Puppet::Parser::Functions
   newfunction(:gitssh_import, :type => :rvalue) do |args|
@@ -11,9 +10,9 @@ module Puppet::Parser::Functions
 
     username = args[0]
     
-    github_keys = OpenURI::open_uri("https://api.github.com/users/#{username}/keys").read
+    github_keys = open("https://api.github.com/users/#{username}/keys").read
 
-    return PSON.load(JSON.parse(github_keys))
+    return PSON.load(github_keys)
 
   end
 end
