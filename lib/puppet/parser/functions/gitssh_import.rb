@@ -22,7 +22,9 @@ module Puppet::Parser::Functions
     keyhash = Hash.new
     userhash.each do |_, keys|
       keys.each do |inkey|
-        keyhash[inkey['id']] = {'key' => inkey['key']}
+        #Split the ssh type from the key so puppet can process correctly
+        splitkey = inkey['key'].split(" ")
+        keyhash[inkey['id']] = {'key' => splitkey[1], 'type' => splitkey[0]}
       end
     end
 
