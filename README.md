@@ -27,10 +27,9 @@ Setup of authorized_keys file based upon an array of github usernames.
 
 ### What githubkey affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* The authorized_keys file for the specified system username will be modified by puppet
+* Don't add usernames if you don't EXPLICITLY want them to be able to login to your servers.
+  They can and potentially WILL login via ssh if you give them access!
 
 ### Beginning with githubkey
 
