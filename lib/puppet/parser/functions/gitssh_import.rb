@@ -6,7 +6,7 @@ module Puppet::Parser::Functions
 
     if (args.size != 1) then
       raise(Puppet::ParseError, "gitssh_import(): Wrong number of arguments " +
-        "given #{args.size} for 1"
+        "given #{args.size} for 1")
     end
 
     username = args[0]
