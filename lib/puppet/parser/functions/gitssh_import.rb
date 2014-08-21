@@ -9,10 +9,24 @@ module Puppet::Parser::Functions
     end
 
     username = args[0]
-    
-    github_keys = open("https://api.github.com/users/#{username}/keys").read
 
-    return PSON.load(github_keys)
+    userhash = Hash.new
+    Array(username).each do |name|
+      github_keys = URI.parse("https://api.github.com/users/#{name}/keys").read
+
+      puppetdata = PSON.load(github_keys)
+
+      userhash[name] = puppetdata
+    end
+
+    keyhash = Hash.new
+    userhash.each do |_, keys|
+      keys.each do |inkey|
+        keyhash[inkey['id']] = {'key' => inkey['key']}
+      end
+    end
+
+    return keyhash
 
   end
 end

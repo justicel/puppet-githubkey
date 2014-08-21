@@ -35,7 +35,12 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class githubkey {
+class githubkey (
+  $usernames,
+) {
 
+  $ssh_keys = gitssh_import($usernames)
+
+  create_resources(ssh_keys, $ssh_keys)
 
 }
