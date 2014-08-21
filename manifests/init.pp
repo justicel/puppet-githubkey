@@ -36,11 +36,17 @@
 # Copyright 2014 Your name here, unless otherwise noted.
 #
 class githubkey (
+  $ensure = present,
+  $auth_user = 'root',
   $usernames,
 ) {
 
   $ssh_keys = gitssh_import($usernames)
+  $defaults = {
+    ensure => $ensure,
+    user   => $auth_user,
+  }
 
-  create_resources(ssh_keys, $ssh_keys)
+  create_resources(ssh_authorized_key, $ssh_keys, $defaults)
 
 }
