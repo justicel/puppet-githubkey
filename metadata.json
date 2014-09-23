@@ -1,6 +1,6 @@
 {
   "name": "jlondon-githubkey",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "author": "jlondon",
   "summary": "Module to allow importing of github ssh keys to local system",
   "license": "Apache 2.0",
