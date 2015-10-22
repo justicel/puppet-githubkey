@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'net/http'
 
 module Puppet::Parser::Functions
   newfunction(:gitssh_import, :type => :rvalue) do |args|
@@ -9,14 +9,28 @@ module Puppet::Parser::Functions
     end
 
     #Function accepts an array of usernames as input
-    username = args[0]
+    github_user  = args[0]
+    github_token = args[1]
+    username     = args[2]
 
     #Loop through list of usernames to read key data from github
     userhash = Hash.new
     Array(username).each do |name|
-      github_keys = URI.parse("https://api.github.com/users/#{name}/keys").read
 
-      puppetdata = PSON.load(github_keys)
+      # Build github API URI/auth
+      github_url = URI("https://api.github.com/users/#{name}/keys")
+
+      github_uri         = Net::HTTP.new(github_url.host, github_url.port)
+      github_uri.use_ssl = true
+
+      # Github response
+      github_req      = Net::HTTP::Get.new(github_url.request_uri)
+      github_req.basic_auth github_user, github_token
+
+      github_response = github_uri.request(github_req)
+
+      # Load in puppet data from github
+      puppetdata = PSON.load(github_response.body)
 
       #Do at least a basic sanity check of output from github
       if ! puppetdata.is_a?(Array) then

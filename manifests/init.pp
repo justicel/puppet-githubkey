@@ -8,6 +8,12 @@
 # [*ensure*]
 #   Ensure can be present or absent which will either add or remove the user keys from the system
 #
+# [*github_auth_user*]
+#   A username for a token/username combo to access github API
+#
+# [*github_auth_token*]
+#   Token for github API access
+#
 # [*auth_user*]
 #   Define the username to store the ssh authorized key file entries to
 #
@@ -28,15 +34,23 @@
 #
 # === Copyright
 #
-# Copyright 2014 Justice London
+# Copyright 2015 Justice London
 #
 class githubkey (
-  $ensure    = present,
-  $auth_user = 'root',
+  $ensure            = present,
+  $github_auth_user  = '',
+  $github_auth_token = '',
+  $auth_user         = 'root',
   $usernames,
 ) {
 
-  $ssh_keys = gitssh_import($usernames)
+  # Type validations for variables.
+  validate_array($usernames)
+  validate_string($github_auth_user)
+  validate_string($github_auth_token)
+  validate_string($auth_user)
+
+  $ssh_keys = gitssh_import($github_auth_user, $github_auth_token, $usernames)
   $defaults = {
     ensure => $ensure,
     user   => $auth_user,
