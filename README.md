@@ -39,7 +39,7 @@ Setup of authorized_keys file based upon an array of github usernames.
 
 Based upon a list of usernames fed to the class we can import SSH public keys from github to a local authorized_keys file:
 
-    class {'githubkey':
+    githubkey { 'root':
       ensure            => present,
       auth_user         => 'root',
       github_auth_user  => 'myuser',

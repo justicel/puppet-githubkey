@@ -1,4 +1,4 @@
-# == Class: githubkey
+# == Resource: githubkey
 #
 # This module allows you to input an array of usernames from github and 
 # import them to a local system users authorized keys file
@@ -22,7 +22,7 @@
 #
 # === Examples
 #
-#  class { 'githubkey':
+#  githubkey { 'root':
 #    ensure    => present,
 #    auth_user => 'root',
 #    usernames => ['github'],
@@ -34,13 +34,13 @@
 #
 # === Copyright
 #
-# Copyright 2015 Justice London
+# Copyright 2016 Justice London
 #
-class githubkey (
+define githubkey (
   $ensure            = present,
+  $auth_user         = $name,
   $github_auth_user  = '',
   $github_auth_token = '',
-  $auth_user         = 'root',
   $usernames,
 ) {
 
