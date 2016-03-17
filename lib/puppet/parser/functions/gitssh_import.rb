@@ -3,15 +3,16 @@ require 'net/http'
 module Puppet::Parser::Functions
   newfunction(:gitssh_import, :type => :rvalue) do |args|
 
-    if (args.size != 3) then
+    if (args.size != 4) then
       raise(Puppet::ParseError, "gitssh_import(): Wrong number of arguments " +
-        "given #{args.size} for 3")
+        "given #{args.size} for 4")
     end
 
     #Function accepts an array of usernames as input
-    github_user  = args[0]
-    github_token = args[1]
-    username     = args[2]
+    local_name   = args[0]
+    github_user  = args[1]
+    github_token = args[2]
+    username     = args[3]
 
     #Loop through list of usernames to read key data from github
     userhash = Hash.new
@@ -46,7 +47,7 @@ module Puppet::Parser::Functions
       keys.each do |inkey|
         #Split the ssh type from the key so puppet can process correctly
         splitkey = inkey['key'].split(" ")
-        gitusername = [user,inkey['id']].join('-')
+        gitusername = [local_name,user,inkey['id']].join('-')
 
         keyhash[gitusername] = {'key' => splitkey[1], 'type' => splitkey[0]}
       end

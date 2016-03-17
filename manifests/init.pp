@@ -50,7 +50,7 @@ define githubkey (
   validate_string($github_auth_token)
   validate_string($auth_user)
 
-  $ssh_keys = gitssh_import($github_auth_user, $github_auth_token, $usernames)
+  $ssh_keys = gitssh_import($name, $github_auth_user, $github_auth_token, $usernames)
   $defaults = {
     ensure => $ensure,
     user   => $auth_user,
